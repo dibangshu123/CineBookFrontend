@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        h2 {
+            background-color: #d32f2f;
+            color: white;
+            padding: 15px;
+            margin: 0;
+        }
+
+        .payment-container {
+            width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .total {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 2px solid #d32f2f;
+            background: white;
+            color: #d32f2f;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .payment-method {
+            display: none;
+            margin-top: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .upi-options button {
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background: #eee;
+        }
+
+        .pay-btn {
+            margin-top: 20px;
+            padding: 12px 25px;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .pay-btn:hover {
+            background-color: #b71c1c;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Payment</h2>
+
+<div class="payment-container">
+
+    <div class="total">
+        Total Amount: ₹<span id="amount">0</span>
+    </div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="showMethod('card', this)">Card</button>
+        <button class="tab-btn" onclick="showMethod('upi', this)">UPI</button>
+    </div>
+
+    <!-- Card Payment -->
+    <div id="card" class="payment-method" style="display:block;">
+        <input type="text" placeholder="Card Number">
+        <input type="text" placeholder="Card Holder Name">
+        <input type="text" placeholder="Expiry Date (MM/YY)">
+        <input type="password" placeholder="CVV">
+    </div>
+
+    <!-- UPI Payment -->
+    <div id="upi" class="payment-method">
+        <input type="text" placeholder="Enter UPI ID">
+
+        <div class="upi-options">
+            <button>GPay</button>
+            <button>PhonePe</button>
+            <button>Razorpay</button>
+        </div>
+    </div>
+
+    <button class="pay-btn" onclick="payNow()">Pay Now</button>
+
+</div>
+
+<script>
+
+    // Get total amount from seat page
+    const total = localStorage.getItem("totalAmount");
+    document.getElementById("amount").innerText = total ? total : 0;
+
+    function showMethod(method, btn) {
+
+        document.getElementById("card").style.display = "none";
+        document.getElementById("upi").style.display = "none";
+
+        document.getElementById(method).style.display = "block";
+
+        const buttons = document.querySelectorAll(".tab-btn");
+        buttons.forEach(b => b.classList.remove("active"));
+
+        btn.classList.add("active");
+    }
+
+    function payNow() {
+        alert("Payment Successful!\nEnjoy Your Movie 🎬");
+
+        // Clear stored data
+        localStorage.removeItem("totalAmount");
+
+        window.location.href = "shows.html";
+    }
+
+</script>
+
+</body>
+</html>

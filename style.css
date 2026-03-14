@@ -1,0 +1,98 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Background */
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #8b0000, #b71c1c, #d32f2f);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Glass Effect Form Box */
+.form-box {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 40px;
+    width: 350px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    color: white;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Heading */
+.form-box h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Input Fields */
+.form-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* Input Focus Effect */
+.form-box input:focus {
+    box-shadow: 0 0 8px #ff5252;
+}
+
+/* Buttons */
+.form-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    color: #b71c1c;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Button Hover */
+.form-box button:hover {
+    background: #ff5252;
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* Links */
+.form-box a {
+    color: #ffdada;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.form-box a:hover {
+    text-decoration: underline;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

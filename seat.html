@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Seat Selection</title>
+
+<style>
+body{
+    font-family:Arial;
+    margin:0;
+    background:#f4f4f4;
+    text-align:center;
+}
+
+h2{
+    background:#d32f2f;
+    color:white;
+    padding:15px;
+    margin:0;
+}
+
+.screen{
+    margin:20px auto;
+    padding:10px;
+    width:60%;
+    background:#ccc;
+    border-radius:10px;
+}
+
+.section-title{
+    margin-top:20px;
+    font-weight:bold;
+}
+
+.row{
+    display:flex;
+    justify-content:center;
+    margin:5px;
+}
+
+.seat{
+    width:35px;
+    height:35px;
+    margin:5px;
+    border-radius:5px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    cursor:pointer;
+}
+
+.silver{background:#b0bec5;}
+.gold{background:#ffd54f;}
+.platinum{background:#90caf9;}
+
+.selected{
+    background:#d32f2f !important;
+    color:white;
+}
+
+.summary{
+    margin-top:20px;
+    font-size:18px;
+}
+
+/* Proceed Button */
+.proceed-btn{
+    margin:20px;
+    padding:12px 25px;
+    background:#d32f2f;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+/* Modal Styling */
+.modal{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    justify-content:center;
+    align-items:center;
+}
+
+.modal-content{
+    background:white;
+    width:350px;
+    padding:20px;
+    border-radius:10px;
+}
+
+.food-item{
+    margin:10px 0;
+    text-align:left;
+}
+
+.modal button{
+    margin-top:15px;
+    padding:10px 20px;
+    background:#d32f2f;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<h2>Select Seats</h2>
+
+<div class="screen">SCREEN</div>
+
+<h3 id="showDisplay"></h3>
+
+<div class="section-title">Silver (₹150)</div>
+<div id="silver"></div>
+
+<div class="section-title">Gold (₹250)</div>
+<div id="gold"></div>
+
+<div class="section-title">Platinum (₹400)</div>
+<div id="platinum"></div>
+
+<div class="summary">
+Seats Selected: <span id="count">0</span> |
+Total: ₹<span id="total">0</span>
+</div>
+
+<button class="proceed-btn" onclick="openFood()">Proceed to Add Food</button>
+
+<!-- FOOD POPUP -->
+<div class="modal" id="foodModal">
+    <div class="modal-content">
+        <h3>Add Food 🍿</h3>
+
+        <div class="food-item">
+            <input type="checkbox" value="200" onchange="updateFood(this)"> Popcorn (₹200)
+        </div>
+
+        <div class="food-item">
+            <input type="checkbox" value="150" onchange="updateFood(this)"> Coke (₹150)
+        </div>
+
+        <div class="food-item">
+            <input type="checkbox" value="250" onchange="updateFood(this)"> Combo (₹250)
+        </div>
+
+        <button onclick="goToPayment()">Continue to Payment</button>
+    </div>
+</div>
+
+<script>
+
+let prices={silver:150,gold:250,platinum:400};
+let selectedSeats=0;
+let totalAmount=0;
+let foodTotal=0;
+
+// Display show time
+document.getElementById("showDisplay").innerText =
+"Show: "+localStorage.getItem("showTime");
+
+// Create Seats
+function createSection(id,className,rows,startChar){
+    let container=document.getElementById(id);
+
+    for(let r=0;r<rows;r++){
+        let row=document.createElement("div");
+        row.classList.add("row");
+
+        for(let i=1;i<=10;i++){
+            let seat=document.createElement("div");
+            seat.classList.add("seat",className);
+            seat.innerText=String.fromCharCode(startChar+r)+i;
+
+            seat.onclick=function(){
+                if(seat.classList.contains("selected")){
+                    seat.classList.remove("selected");
+                    selectedSeats--;
+                    totalAmount-=prices[className];
+                }else{
+                    seat.classList.add("selected");
+                    selectedSeats++;
+                    totalAmount+=prices[className];
+                }
+
+                document.getElementById("count").innerText=selectedSeats;
+                document.getElementById("total").innerText=totalAmount;
+            };
+
+            row.appendChild(seat);
+        }
+        container.appendChild(row);
+    }
+}
+
+createSection("silver","silver",3,65);
+createSection("gold","gold",4,68);
+createSection("platinum","platinum",1,72);
+
+// Open Food Popup
+function openFood(){
+    if(selectedSeats==0){
+        alert("Please select at least one seat!");
+        return;
+    }
+
+    document.getElementById("foodModal").style.display="flex";
+}
+
+// Update food price
+function updateFood(item){
+    if(item.checked){
+        foodTotal+=parseInt(item.value);
+    }else{
+        foodTotal-=parseInt(item.value);
+    }
+}
+
+// Go To Payment
+function goToPayment(){
+    let finalTotal=totalAmount+foodTotal;
+    localStorage.setItem("finalAmount",finalTotal);
+    window.location.href="payment.html";
+}
+
+</script>
+
+</body>
+</html>
